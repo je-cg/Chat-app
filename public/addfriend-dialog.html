@@ -1,0 +1,15 @@
+<md-dialog>
+      <md-toolbar layout="row" layout-align="center center" class="md-toolbar-tools">
+        <h2 class="md-display-1">Add Contact</h2>
+      </md-toolbar>
+      <md-dialog-content>
+        <md-input-container layout="column" flex>
+          <label for="newcontact">Contact email</label>
+          <input type="email" name="contact" ng-model="newcontact" />
+        </md-input-container>
+        <div layout="row" flex>
+          <md-button aria-label="cancel" ng-click="closeDialog()" class="md-raised" ng-disabled="adding">Cancel</md-button>
+          <md-button aria-label="add" class="md-raised md-primary" ng-click="addfriend(newcontact)" ng-disabled="adding">Add</md-button>
+        </div>
+      </md-dialog-content>
+    </md-dialog>

@@ -1,0 +1,19 @@
+
+<md-dialog>
+  <md-toolbar layout="row" layout-align="start end" class="md-toolbar-tools">
+    <md-button class="md-icon-button" ng-class="tool==='pencil'? 'md-whiteframe-z2' : '' " ng-click="tool='pencil'">
+        <md-icon md-font-library="material-icons" class="material-icons md-36 menucolor tool">create</md-icon>
+    </md-button>
+    <md-button class="md-icon-button erase" ng-class="tool==='eraser'? 'md-whiteframe-z2' : ''" ng-click="tool='eraser'">
+        <md-icon md-font-library="material-icons" class="material-icons md-36 menucolor tool">crop_portrait</md-icon>
+    </md-button>
+    <md-button class="md-accent md-raised" ng-click="canvasClear()">Clear</md-button>
+  </md-toolbar>
+  <md-dialog-content>
+    <canvas width="240" height="200" class="paint" id="scrible" ng-mousedown="startDrawing($event)" ng-mousemove="draw($event)" ng-mouseleave="stopDrawing()" ng-mouseup="stopDrawing($event)"></canvas>
+    <div layout="row" flex>
+      <md-button aria-label="cancel" ng-click="closeCanvas()" class="md-raised">Cancel</md-button>
+      <md-button aria-label="add" class="md-raised md-primary" ng-click="sendScrible()">Send</md-button>
+    </div>
+  </md-dialog-content>
+</md-dialog>

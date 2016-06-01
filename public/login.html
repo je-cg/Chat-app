@@ -1,0 +1,30 @@
+<header id="banner"><h1>Chat App</h1></header>
+<div class="logreg" ng-hide="log_reg.sending">
+	<h1 id="boxtitle"><span class="showlog" ng-click="log_reg.sate= true"> login </span>or<span class="showreg" ng-click="log_reg.sate= false"> register </span>for free</h1>
+	<!-- <div ></div> server errors directive-->
+	<form name="logregForm" novalidate>
+		<label for="user">email:</label>
+		<input type="email" placeholder='email' id='user' ng-model="log_reg.email" name="uemail" required>
+		<div ng-show="logregForm.uemail.$touched && logregForm.uemail.$error">
+			<p ng-show="logregForm.uemail.$error.required">The email is required</p>
+			<p ng-show="logregForm.uemail.$error.email">This is not a valid email</p>
+		</div>
+		
+		<label for="pass">password:</label>
+		<input type="password" placeholder='password' id='pass' ng-model="log_reg.password" name="pass" required ng-minlength="8" >
+		<div ng-show="logregForm.pass.$touched && logregForm.pass.$error">
+			<p ng-show="logregForm.pass.$error.required">The password is required</p>
+			<p ng-show="logregForm.pass.$error.min">The password must be at least 8 characters long</p>
+		</div>
+
+		<label for="confirm" ng-hide="log_reg.sate">Confirm password:</label>
+		<input type="password" placeholder='confirm password' id='confirm' ng-hide="log_reg.sate" name="confirm" ng-required="!log_reg.state" ng-pattern="log_reg.password">
+		<div ng-show="!log_reg.state && logregForm.confirm.$error">
+			<p ng-show="logregForm.confirm.$error.required">The confirmation is required</p>
+			<p ng-show="logregForm.confirm.$error.pattern && logregForm.pass.$touched">The fields do not coincide</p>
+		</div>
+	</form>
+	<button  id="log" ng-click="logreg('log')" ng-show="log_reg.sate" >login</button>
+	<button  id="reg" ng-click="logreg('reg')" ng-hide="log_reg.sate">register</button>
+</div>
+<img src="/images/loading.gif"  ng-show="log_reg.sending" class="loading"/>
