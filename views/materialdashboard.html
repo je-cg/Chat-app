@@ -1,0 +1,102 @@
+
+<md-toolbar layout="row">
+  <div class="md-toolbar-tools">
+    <h1 hide-sm>Chat App</h1>
+
+      <!-- display contact list button -->
+    <md-button aria-label="contact list" class="md-icon-button" hide-gt-sm ng-click="toggleSidenav('left')">
+      <i  class="material-icons md-36 menucolor">view_list</i>
+    </md-button>
+
+
+    <!-- main menu -->
+    <div flex layout="row" layout-align="end center" >
+      <!-- add contact button -->
+      <md-button aria-label="add contact" class="md-icon-button" ng-click="showDialog($event, 'add')">
+        <i  class="material-icons md-36 menucolor" >person_add</i>
+      </md-button>
+      <!-- show requests -->
+      <md-button aria-label="friend request" class="md-icon-button" ng-click="isreqboxOpen= !isreqboxOpen && !reqboxEmpty">
+        <i  class="material-icons md-36 menucolor" ng-bind="requesticon"></i>
+      </md-button>
+
+      <!-- request dropbox -->
+      <md-icon  md-font-library="material-icons" class="material-icons md-48 reqarrow" ng-show="isreqboxOpen">arrow_drop_up</md-icon>
+      <!-- list of requests -->
+      <md-list id="requestbox" class="md-whiteframe-z5" ng-show="isreqboxOpen">
+        <md-list-item class="md-2-line" ng-repeat="(key, request) in friendrequests" flex>
+          <div layout="row" layout-align="start start" flex>
+            <span class="requesters" flex>{{request}}</span>
+            <md-button aria-label="reject" class="md-icon-button md-warn" ng-click="respond(request,false)">
+              <md-icon md-font-library="material-icons" class="material-icons md-16">cancel</md-icon>
+            </md-button>
+            <md-button aria-label="accept" class="md-icon-button md-primary" ng-click="respond(request,true)">
+              <md-icon md-font-library="material-icons" class="material-icons md-16">check_circle</md-icon>
+            </md-button>
+          </div>
+          </md-list-item>
+      </md-list>
+
+      <!-- logout button -->
+      <md-button aria-label="logout" class="md-icon-button" ng-click="logout()">
+        <i  class="material-icons md-36 menucolor" >exit_to_app</i>
+      </md-button>
+    </div>
+  </div>
+</md-toolbar>
+
+
+<div layout="row" flex class="content">
+  <md-sidenav layout="column" id="sidelist" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+
+    <!-- search contacts box -->
+    <div class="searchContact">
+      <md-input-container>
+        <label for="Searchbox">Search..</label>
+        <input type="text" ng-model="search"/>
+      </md-input-container>
+    </div>
+
+    <!-- filter tabs -->
+    <md-tabs class="selcetFilter">
+      <md-tab md-on-select="onlinef='online'">Online</md-tab>
+      <md-tab md-on-select="onlinef='offline'">Offline</md-tab>
+      <md-tab md-on-select="onlinef=undefined">All</md-tab>
+    </md-tabs>
+
+    <!-- contact list -->
+    <md-list class="contact_list" id="contactList">
+      <md-list-item class="md-2-line" ng-repeat="(key, contact) in contacts | Objfilterbyval:'status':onlinef | ObjpropHasStr:'email':search" ng-class="contact.received">
+        <md-button ng-click="selectContact(contact)" flex class="contactButton">
+          <i  class="material-icons md-36">account_circle</i>
+          <h3>{{contact.email}}</h3> 
+        </md-button>
+      </md-list-item>
+    </md-list>
+
+  </md-sidenav>
+  
+  <!-- chat view -->
+  <div layout="column" flex id="chatWindows" ng-show="selectedUser">
+    <md-content layout="column" flex="90" class="messageArea">
+      <h1 class="conversationtitle" layout="row" layout-align="start center">
+        <md-button class="md-icon-button" ng-click="showCanvas($event)">
+          <i md-font-library="material-icons" class="material-icons md-36 menucolor">palette</i>
+        </md-button>
+        <span ng-bind="selectedUser" flex></span>
+        <md-button class="md-icon-button join" ng-click="showDialog($event, 'join')">
+          <i md-font-library="material-icons" class="material-icons md-36 menucolor join">group_add</i>
+        </md-button>
+      </h1>
+      <div id="conversations"   layout="column">
+         
+      </div> 
+    </md-content>
+    
+    <div class="sendArea" flex="10" layout="row">
+      <textarea flex="75" name="sendBox" ng-model="newmessage"></textarea>
+      <md-button class="md-raised md-primary" flex="30" ng-click="sendmsg(newmessage, selectedUser)">Send</md-button>
+    </div>
+  </div>
+  
+</div>
